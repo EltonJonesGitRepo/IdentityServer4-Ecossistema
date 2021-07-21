@@ -15,8 +15,8 @@ namespace IndentityServerEcossistema
          new List<ApiResource>
          {
                 new ApiResource("doughnutapi")
-                {
-                    Scopes = { "doughnutapi", "email" }
+                {                    
+                    Scopes = { "doughnutapi", "console-cliente" }
                 }
          };
 
@@ -110,8 +110,7 @@ namespace IndentityServerEcossistema
                         "roles"
                     },
 
-                    AllowAccessTokensViaBrowser = true,
-                    AlwaysIncludeUserClaimsInIdToken = true,
+                    AllowAccessTokensViaBrowser = true,                    
                 },
 
                  // Console application cliente
@@ -119,14 +118,9 @@ namespace IndentityServerEcossistema
                 {
                     ClientId = "console-cliente",
                     ClientName = "Client Credentials Client",
-
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     ClientSecrets = { new Secret("console-cliente".Sha256()) },
-
-                    AllowedScopes = { "doughnutapi" }
-                    
-                    //todo: configurar escopo para o console application
-                    //AllowedScopes = { "console-cliente" }
+                    AllowedScopes = { "console-cliente" }
                 },
 
             };

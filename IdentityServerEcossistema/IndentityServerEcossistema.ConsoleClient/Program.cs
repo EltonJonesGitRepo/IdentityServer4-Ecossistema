@@ -44,11 +44,8 @@ namespace IndentityServerEcossistema.ConsoleClient
             {
                 Address = "https://localhost:5001/connect/token",
                 ClientId = "console-cliente",
-                ClientSecret = "console-cliente",
-                Scope = "doughnutapi"
-                
-                //todo: configurar o escopo abaixo para funcionar
-                //Scope = "console-cliente"
+                ClientSecret = "console-cliente",                                               
+                Scope = "console-cliente"
             });
 
 

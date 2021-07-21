@@ -42,8 +42,7 @@ namespace IndentityServerEcossistema.API
                     // allow self-signed SSL certs
                     options.BackchannelHttpHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = delegate { return true; } };
 
-                    // the scope id of this api
-                    //todo: configurar audiencia correspondente a escopo proprio da API. Ainda está genérico
+                    // the scope id of this api                    
                     options.Audience = "doughnutapi";
                                         
                 });
