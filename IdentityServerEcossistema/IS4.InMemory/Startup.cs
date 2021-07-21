@@ -14,7 +14,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace IndentityServerEcossistema
 {
@@ -48,14 +51,35 @@ namespace IndentityServerEcossistema
             })
                 .AddTestUsers(TestUsers.Users);
 
+
+            #region Adicionar certificado PFX ao IdentityServer
+
+            //Adicionar certificado PFX ao IdentityServer
+
+            var ecdsaCertificate = new X509Certificate2(Path.Combine(".", "ecdsaCert.pfx"), "1234");            
+
+            ECDsaSecurityKey ecdsaCertificatePublicKey
+                = new ECDsaSecurityKey(ecdsaCertificate.GetECDsaPrivateKey());
+
+            builder.AddSigningCredential(ecdsaCertificatePublicKey, "ES256");
+
+
+            //### Obs: Removido a adicao de certificado em ambiente DEV
+            // not recommended for production - you need to store your key material somewhere secure
+            //builder.AddDeveloperSigningCredential();
+
+
+
+            #endregion Adicionar certificado PFX ao IdentityServer
+
+
             // in-memory, code config
             builder.AddInMemoryIdentityResources(Config.IdentityResources);
             builder.AddInMemoryApiResources(Config.ApiResources);
             builder.AddInMemoryApiScopes(Config.ApiScopes);
             builder.AddInMemoryClients(Config.Clients);
 
-            // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
+          
 
             services.AddAuthentication()
                 .AddGoogle(options =>
