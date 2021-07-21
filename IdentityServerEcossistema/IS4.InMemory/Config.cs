@@ -43,7 +43,11 @@ namespace IndentityServerEcossistema
                 new ApiScope("scope2"),
 
                 //###
-                new ApiScope("doughnutapi", "Doughnut API")
+                new ApiScope("doughnutapi", "Doughnut API"),
+
+
+                new ApiScope("console-cliente"),
+                
             };
 
         public static IEnumerable<Client> Clients =>
@@ -108,7 +112,22 @@ namespace IndentityServerEcossistema
 
                     AllowAccessTokensViaBrowser = true,
                     AlwaysIncludeUserClaimsInIdToken = true,
-                }
+                },
+
+                 // Console application cliente
+                new Client
+                {
+                    ClientId = "console-cliente",
+                    ClientName = "Client Credentials Client",
+
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = { new Secret("console-cliente".Sha256()) },
+
+                    AllowedScopes = { "doughnutapi" }
+                    
+                    //todo: configurar escopo para o console application
+                    //AllowedScopes = { "console-cliente" }
+                },
 
             };
     }

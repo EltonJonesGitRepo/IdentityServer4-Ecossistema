@@ -43,7 +43,9 @@ namespace IndentityServerEcossistema.API
                     options.BackchannelHttpHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = delegate { return true; } };
 
                     // the scope id of this api
+                    //todo: configurar audiencia correspondente a escopo proprio da API. Ainda está genérico
                     options.Audience = "doughnutapi";
+                                        
                 });
 
             #endregion Configuracoes para IS4
