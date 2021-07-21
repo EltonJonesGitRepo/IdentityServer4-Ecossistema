@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -5,6 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 
 namespace IndentityServerEcossistema.API
@@ -42,8 +47,9 @@ namespace IndentityServerEcossistema.API
                     // allow self-signed SSL certs
                     options.BackchannelHttpHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = delegate { return true; } };
 
-                    // the scope id of this api
+                    // the scope id of this api                    
                     options.Audience = "doughnutapi";
+                                        
                 });
 
             #endregion Configuracoes para IS4
@@ -53,6 +59,25 @@ namespace IndentityServerEcossistema.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "IndentityServerEcossistema.API", Version = "v1" });
+
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.OAuth2,
+                    Flows = new OpenApiOAuthFlows
+                    {
+                        AuthorizationCode = new OpenApiOAuthFlow
+                        {
+                            AuthorizationUrl = new Uri("https://localhost:5001/connect/authorize"),
+                            TokenUrl = new Uri("https://localhost:5001/connect/token"),
+                            Scopes = new Dictionary<string, string>
+                            {
+                                {"doughnutapi", "Goughnut API"},                                
+                            }
+                        }
+                    },                    
+                });
+
+                c.OperationFilter<AuthorizeCheckOperationFilter>();
             });
         }
 
@@ -82,7 +107,16 @@ namespace IndentityServerEcossistema.API
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "IndentityServerEcossistema.API v1"));
+                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "IndentityServerEcossistema.API v1"));
+
+                app.UseSwaggerUI(setup =>
+                 {
+                     setup.SwaggerEndpoint($"/swagger/v1/swagger.json", "IndentityServerEcossistema.API v1");
+                     setup.OAuthClientId("swagger-client");
+                     setup.OAuthAppName("Doughnut API");
+                     setup.OAuthScopeSeparator(" ");
+                     setup.OAuthUsePkce();
+                 });
             }
 
             app.UseHttpsRedirection();
@@ -95,6 +129,31 @@ namespace IndentityServerEcossistema.API
             {
                 endpoints.MapControllers();
             });
+        }
+
+
+        public class AuthorizeCheckOperationFilter : IOperationFilter
+        {
+            public void Apply(OpenApiOperation operation, OperationFilterContext context)
+            {
+                var hasAuthorize = context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any() ||
+                                   context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
+
+                if (hasAuthorize)
+                {
+                    operation.Responses.Add("401", new OpenApiResponse { Description = "Unauthorized" });
+                    operation.Responses.Add("403", new OpenApiResponse { Description = "Forbidden" });
+
+                    operation.Security = new List<OpenApiSecurityRequirement>
+                {
+                    new OpenApiSecurityRequirement
+                    {
+                        [new OpenApiSecurityScheme {Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "oauth2"}}]
+                            = new[] { "doughnutapi" }
+                    }
+                };
+                }
+            }
         }
     }
 }

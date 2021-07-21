@@ -43,5 +43,13 @@ namespace IndentityServerEcossistema.API.Controllers
         {
             return Ok(Doughnuts);
         }
+
+
+        [HttpGet]     
+        [Route("endpoint-console")]
+        public async Task<IActionResult> GetConsoleApplication()
+        {
+            return Ok(Doughnuts);
+        }
     }
 }

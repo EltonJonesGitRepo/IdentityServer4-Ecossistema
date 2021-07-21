@@ -15,8 +15,8 @@ namespace IndentityServerEcossistema
          new List<ApiResource>
          {
                 new ApiResource("doughnutapi")
-                {
-                    Scopes = { "doughnutapi", "email" }
+                {                    
+                    Scopes = { "doughnutapi", "console-cliente", "swagger-client" }
                 }
          };
 
@@ -43,7 +43,9 @@ namespace IndentityServerEcossistema
                 new ApiScope("scope2"),
 
                 //###
-                new ApiScope("doughnutapi", "Doughnut API")
+                new ApiScope("doughnutapi", "Doughnut API"),
+                new ApiScope("console-cliente"),
+                
             };
 
         public static IEnumerable<Client> Clients =>
@@ -106,10 +108,33 @@ namespace IndentityServerEcossistema
                         "roles"
                     },
 
-                    AllowAccessTokensViaBrowser = true,
-                    AlwaysIncludeUserClaimsInIdToken = true,
-                }
+                    AllowAccessTokensViaBrowser = true,                    
+                },
 
+                 // Console application cliente
+                new Client
+                {
+                    ClientId = "console-cliente",
+                    ClientName = "Client Credentials Client",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = { new Secret("console-cliente".Sha256()) },
+                    AllowedScopes = { "console-cliente" }
+                },
+
+
+
+               new Client
+                {
+                    ClientId = "swagger-client",
+                    ClientName = "Swagger UI for demo_api",
+                    ClientSecrets = {new Secret("swagger-client".Sha256())},
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+                    RedirectUris = {"https://localhost:44356/swagger/oauth2-redirect.html"},
+                    AllowedCorsOrigins = {"https://localhost:44356"},
+                    AllowedScopes = { "doughnutapi" }
+                }
             };
     }
 }
