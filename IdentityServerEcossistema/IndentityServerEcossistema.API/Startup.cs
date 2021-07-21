@@ -54,14 +54,6 @@ namespace IndentityServerEcossistema.API
 
             #endregion Configuracoes para IS4
 
-
-            ////###
-            ////Possibilitar obtencao de dados da requisicao para tratar o escopo da aplicacao que 
-            ////está realizando o request. Assim será possível obter o escopo da requisicao de dentro 
-            ////do accessToken e tratar permissoes por escopo.
-            //services.AddHttpContextAccessor();
-
-
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
