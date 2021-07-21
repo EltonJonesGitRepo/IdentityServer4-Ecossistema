@@ -1,7 +1,10 @@
 ﻿using IndentityServerEcossistema.Modelos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace IndentityServerEcossistema.API.Controllers
@@ -49,6 +52,9 @@ namespace IndentityServerEcossistema.API.Controllers
         [Route("endpoint-console")]
         public async Task<IActionResult> GetConsoleApplication()
         {
+            if (!AutorizacaoUtil.EscopoPermitido(this.HttpContext, "console-cliente"))
+                return Unauthorized("Escopo nao autorizado");                
+            
             return Ok(Doughnuts);
         }
     }
