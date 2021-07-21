@@ -16,7 +16,7 @@ namespace IndentityServerEcossistema
          {
                 new ApiResource("doughnutapi")
                 {                    
-                    Scopes = { "doughnutapi", "console-cliente" }
+                    Scopes = { "doughnutapi", "console-cliente", "swagger-client" }
                 }
          };
 
@@ -44,8 +44,6 @@ namespace IndentityServerEcossistema
 
                 //###
                 new ApiScope("doughnutapi", "Doughnut API"),
-
-
                 new ApiScope("console-cliente"),
                 
             };
@@ -123,6 +121,20 @@ namespace IndentityServerEcossistema
                     AllowedScopes = { "console-cliente" }
                 },
 
+
+
+               new Client
+                {
+                    ClientId = "swagger-client",
+                    ClientName = "Swagger UI for demo_api",
+                    ClientSecrets = {new Secret("swagger-client".Sha256())},
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequirePkce = true,
+                    RequireClientSecret = false,
+                    RedirectUris = {"https://localhost:44356/swagger/oauth2-redirect.html"},
+                    AllowedCorsOrigins = {"https://localhost:44356"},
+                    AllowedScopes = { "doughnutapi" }
+                }
             };
     }
 }
