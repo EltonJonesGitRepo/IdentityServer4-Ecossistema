@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndentityServerEcossistema.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndentityServerEcossistema.ConsoleClient", "IndentityServerEcossistema.ConsoleClient\IndentityServerEcossistema.ConsoleClient.csproj", "{21CBDECA-0F53-457F-878B-B99BF65468C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndentityServerEcossistema.GerarCertificado", "IndentityServerEcossistema.GerarCertificado\IndentityServerEcossistema.GerarCertificado.csproj", "{E8997BC9-00A5-4F14-91D9-863BE6206BC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndentityServerEcossistema.GerarCertificado", "IndentityServerEcossistema.GerarCertificado\IndentityServerEcossistema.GerarCertificado.csproj", "{E8997BC9-00A5-4F14-91D9-863BE6206BC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndentityServerEcossistema.WEB", "IndentityServerEcossistema.WEB\IndentityServerEcossistema.WEB.csproj", "{8A8B6D77-B8A1-4570-8DDF-6BE110CB6364}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{E8997BC9-00A5-4F14-91D9-863BE6206BC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8997BC9-00A5-4F14-91D9-863BE6206BC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8997BC9-00A5-4F14-91D9-863BE6206BC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A8B6D77-B8A1-4570-8DDF-6BE110CB6364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A8B6D77-B8A1-4570-8DDF-6BE110CB6364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A8B6D77-B8A1-4570-8DDF-6BE110CB6364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A8B6D77-B8A1-4570-8DDF-6BE110CB6364}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

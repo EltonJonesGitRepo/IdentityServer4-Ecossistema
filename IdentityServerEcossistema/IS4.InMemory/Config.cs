@@ -28,7 +28,7 @@ namespace IndentityServerEcossistema
                 new IdentityResources.Profile(),
                 new IdentityResources.Address(),
                 new IdentityResources.Email(),
-                new IdentityResource("roles", "User role(s)", new List<string> { "role" }),
+                new IdentityResource("roles", "User role(s)", new List<string> { "role" }),                
             };
 
 
@@ -134,6 +134,33 @@ namespace IndentityServerEcossistema
                     RedirectUris = {"https://localhost:44356/swagger/oauth2-redirect.html"},
                     AllowedCorsOrigins = {"https://localhost:44356"},
                     AllowedScopes = { "doughnutapi" }
+                },
+
+               // interactive ASP.NET Core MVC client
+                new Client
+                {
+                    ClientId = "mvc",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+
+                    // where to redirect to after login
+                    RedirectUris = { "https://localhost:44340/signin-oidc" },
+                    //RedirectUris = { "https://localhost:44340/Home/Privacy" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "https://localhost:44340/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "roles"
+                    },
+                    AllowAccessTokensViaBrowser = true,
+                    AllowOfflineAccess = true,
+                    AlwaysSendClientClaims = true,
+                    AlwaysIncludeUserClaimsInIdToken = true,
                 }
             };
     }

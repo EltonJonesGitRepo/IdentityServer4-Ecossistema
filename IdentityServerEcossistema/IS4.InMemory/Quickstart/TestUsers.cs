@@ -43,7 +43,8 @@ namespace IdentityServerHost.Quickstart.UI
                             new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address), IdentityServerConstants.ClaimValueTypes.Json),
                             
 
-                            new Claim("role", "Admin")
+                            new Claim("role", "Admin"),
+                            new Claim("role", "Tester")
                         }
                     },
                     new TestUser
@@ -61,7 +62,7 @@ namespace IdentityServerHost.Quickstart.UI
                             new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
                             new Claim(JwtClaimTypes.Address, JsonSerializer.Serialize(address), IdentityServerConstants.ClaimValueTypes.Json),
 
-                            new Claim("role", "Visitante")
+                            new Claim("role", "Analista")
                         }
                     }
                 };
