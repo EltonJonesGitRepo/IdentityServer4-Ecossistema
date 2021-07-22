@@ -1,10 +1,7 @@
 ﻿using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using IdentityServer4.Test;
 using IdentityServerHost.Quickstart.UI;
-using Microsoft.AspNetCore.Identity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -94,14 +91,17 @@ namespace IndentityServerEcossistema.IS4.InMemory
             if(sub != null)
             {
                 var usuario = TestUsers.Users.FirstOrDefault(x => x.SubjectId == sub);
+
+                var claimsRoles = usuario.Claims.Where(x => x.Type == JwtClaimTypes.Role).ToList();
     
                 var userClaims = new List<Claim>
                 {
                     new Claim(JwtClaimTypes.GivenName, usuario.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.GivenName)?.Value),
                     new Claim(JwtClaimTypes.FamilyName, usuario.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.FamilyName)?.Value),
-                    new Claim(JwtClaimTypes.Email, usuario.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value),
-                    new Claim(JwtClaimTypes.Role, usuario.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Role)?.Value),              
+                    new Claim(JwtClaimTypes.Email, usuario.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value),                    
                 };
+
+                userClaims.AddRange(claimsRoles);
 
                 context.IssuedClaims.AddRange(userClaims);
 
